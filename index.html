@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>BTL FC | Digital Ecosystem - Tatu City, Nairobi</title>
+  <!-- Tailwind CSS + Font Awesome + Google Font + Chart.js -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Inter', sans-serif; }
+    body { background: #f8fafc; scroll-behavior: smooth; }
+    .card-hover { transition: all 0.2s ease; }
+    .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 25px -12px rgba(0,0,0,0.1); }
+    .simulation-text { animation: fadeBlink 0.5s ease; }
+    @keyframes fadeBlink { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+    .bg-btl-primary { background: #E05A2A; }
+    .text-btl-primary { color: #E05A2A; }
+    .border-btl-primary { border-color: #E05A2A; }
+    .btn-primary { background: #E05A2A; transition: 0.2s; }
+    .btn-primary:hover { background: #c2451a; }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #e2e8f0; }
+    ::-webkit-scrollbar-thumb { background: #E05A2A; border-radius: 12px; }
+  </style>
+</head>
+<body class="antialiased">
+
+  <!-- HEADER & BRANDING -->
+  <header class="bg-white shadow-md sticky top-0 z-30 border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 bg-btl-primary rounded-full flex items-center justify-center shadow-md"><i class="fas fa-futbol text-white text-xl"></i></div>
+        <div>
+          <h1 class="text-2xl font-black tracking-tight">BTL FC <span class="text-btl-primary">DIGITAL</span></h1>
+          <p class="text-xs text-gray-500 -mt-1"><i class="fas fa-map-marker-alt text-btl-primary mr-1"></i> Tatu City, Nairobi • Kenya</p>
+        </div>
+      </div>
+      <div class="flex gap-2 text-sm font-medium flex-wrap">
+        <a href="#fan-experience" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-btl-primary hover:text-white transition">Fan Zone</a>
+        <a href="#revenue" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-btl-primary hover:text-white transition">⚡ Revenue</a>
+        <a href="#club-mgmt" class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-btl-primary hover:text-white transition">📋 Club Mgmt</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+
+    <!-- ================= FAN EXPERIENCE SECTION ================= -->
+    <section id="fan-experience">
+      <div class="flex items-center gap-2 border-l-4 border-btl-primary pl-3 mb-6">
+        <i class="fas fa-users text-2xl text-btl-primary"></i>
+        <h2 class="text-2xl font-bold">Fan Experience • Digital Heartbeat</h2>
+      </div>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        <!-- LIVE MATCH SIMULATION -->
+        <div class="bg-white rounded-2xl shadow-md p-5 card-hover border border-gray-100">
+          <div class="flex justify-between items-center mb-3">
+            <h3 class="text-xl font-bold flex gap-2"><i class="fas fa-tv text-btl-primary"></i> Live Match Simulator</h3>
+            <span class="bg-red-100 text-red-700 text-xs px-2 py-1 rounded-full"><i class="fas fa-circle text-red-500 text-[8px] mr-1"></i> LIVE</span>
+          </div>
+          <div class="bg-gray-50 rounded-xl p-4 mb-4">
+            <div class="flex justify-between text-center font-bold text-2xl">
+              <span>BTL FC <span class="text-btl-primary">🏠</span></span>
+              <span class="text-3xl mx-4" id="simScore">0 - 0</span>
+              <span>🦁 <span id="simOpponent">Gor Mahia</span></span>
+            </div>
+            <div class="text-center text-xs text-gray-500 mt-1">⏱️ <span id="simMinute">0</span>' • Tatu City Stadium</div>
+          </div>
+          <div class="bg-gray-100 rounded-lg p-3 h-32 overflow-y-auto text-sm mb-3" id="liveCommentary">
+            <p class="text-gray-500">⚽ Press 'Kick-off' to start match simulation...</p>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <button id="startMatchBtn" class="btn-primary text-white px-4 py-2 rounded-lg text-sm shadow"><i class="fas fa-play mr-1"></i> Kick-off</button>
+            <button id="resetMatchBtn" class="bg-gray-200 px-4 py-2 rounded-lg text-sm"><i class="fas fa-undo-alt"></i> Reset</button>
+            <select id="opponentSelect" class="border rounded-lg px-2 py-2 text-sm bg-white">
+              <option value="Gor Mahia">Gor Mahia</option>
+              <option value="AFC Leopards">AFC Leopards</option>
+              <option value="KCB FC">KCB FC</option>
+              <option value="Bandari FC">Bandari FC</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PLAYER STATS DASHBOARD -->
+        <div class="bg-white rounded-2xl shadow-md p-5 card-hover border border-gray-100">
+          <h3 class="text-xl font-bold flex gap-2 mb-3"><i class="fas fa-chart-line text-btl-primary"></i> Player Stats Dashboard</h3>
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-sm">
+              <thead class="bg-gray-100">
+                <tr><th class="p-2">Player</th><th>Pos</th><th>⚽ G</th><th>🎯 A</th><th>⭐ Rating</th></tr>
+              </thead>
+              <tbody id="statsTableBody"></tbody>
+            </table>
+          </div>
+          <p class="text-xs text-gray-400 mt-2">Top scorer: <span id="topScorerName">-</span> (<span id="topScorerGoals">0</span> goals)</p>
+        </div>
+      </div>
+
+      <!-- FAN ACCOUNTS (REGISTER/LOGIN & DASH) -->
+      <div class="bg-gradient-to-r from-orange-50 to-amber-50 rounded-2xl shadow-md p-5 border border-orange-100">
+        <h3 class="text-xl font-bold flex gap-2 mb-3"><i class="fas fa-id-card text-btl-primary"></i> Fan Hub • My Digital Account</h3>
+        <div class="grid md:grid-cols-2 gap-6">
+          <div>
+            <div id="authPanel" class="space-y-3">
+              <div class="flex gap-2 flex-wrap">
+                <input type="text" id="fanName" placeholder="Username" class="border rounded-lg p-2 text-sm flex-1">
+                <input type="email" id="fanEmail" placeholder="Email" class="border rounded-lg p-2 text-sm flex-1">
+                <button id="registerBtn" class="bg-green-700 text-white px-4 rounded-lg text-sm"><i class="fas fa-user-plus"></i> Register</button>
+              </div>
+              <div class="flex gap-2">
+                <input type="text" id="loginName" placeholder="Username" class="border rounded-lg p-2 text-sm flex-1">
+                <button id="loginBtn" class="bg-btl-primary text-white px-4 rounded-lg text-sm"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button id="logoutBtn" class="bg-gray-500 text-white px-3 rounded-lg text-sm hidden">Logout</button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-white p-3 rounded-xl text-sm" id="fanProfileDisplay">
+            <p class="text-gray-500"><i class="far fa-user-circle"></i> Not logged in. Register/Login to unlock tickets, membership & orders.</p>
+          </div>
+        </div>
+        <div id="fanExtraInfo" class="mt-3 text-sm grid md:grid-cols-3 gap-2"></div>
+      </div>
+    </section>
+
+    <!-- ================= REVENUE SIDE ================= -->
+    <section id="revenue">
+      <div class="flex items-center gap-2 border-l-4 border-btl-primary pl-3 mb-6 mt-4">
+        <i class="fas fa-store text-2xl text-btl-primary"></i>
+        <h2 class="text-2xl font-bold">Revenue • Ticketing, Merch & Membership</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- TICKETING SYSTEM -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <i class="fas fa-ticket-alt text-2xl text-btl-primary mb-2"></i>
+          <h3 class="text-lg font-bold">🎟️ Match Tickets</h3>
+          <div id="ticketEventsList" class="space-y-3 mt-3"></div>
+          <p id="ticketMsg" class="text-xs text-gray-400 mt-2"></p>
+        </div>
+        <!-- MERCH STORE -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <i class="fas fa-tshirt text-2xl text-btl-primary mb-2"></i>
+          <h3 class="text-lg font-bold">BTL Merch Store</h3>
+          <div id="merchList" class="space-y-3 max-h-64 overflow-y-auto"></div>
+          <div class="mt-3 border-t pt-2"><span class="font-semibold">🛒 Cart</span> <span id="cartCount">0</span> items <button id="checkoutBtn" class="text-sm bg-btl-primary text-white px-3 py-1 rounded-md ml-2">Checkout</button></div>
+          <div id="cartSummary" class="text-xs"></div>
+        </div>
+        <!-- MEMBERSHIP SUBSCRIPTIONS -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <i class="fas fa-crown text-2xl text-btl-primary mb-2"></i>
+          <h3 class="text-lg font-bold">Membership Plans</h3>
+          <div id="membershipPlans" class="space-y-2"></div>
+          <div id="membershipStatus" class="mt-3 text-sm bg-gray-50 p-2 rounded"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= CLUB MANAGEMENT ================= -->
+    <section id="club-mgmt">
+      <div class="flex items-center gap-2 border-l-4 border-btl-primary pl-3 mb-6 mt-4">
+        <i class="fas fa-chalkboard-user text-2xl text-btl-primary"></i>
+        <h2 class="text-2xl font-bold">Club Management Suite</h2>
+      </div>
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- PLAYER MANAGEMENT DASHBOARD (CRUD) -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <h3 class="text-lg font-bold mb-2"><i class="fas fa-users-viewfinder"></i> Player Management</h3>
+          <div class="overflow-x-auto max-h-64 overflow-y-auto">
+            <table class="w-full text-sm border">
+              <thead class="bg-gray-100"><tr><th>Name</th><th>Pos</th><th>Goals</th><th>Assists</th><th>Actions</th></tr></thead>
+              <tbody id="playerMgmtTbody"></tbody>
+            </table>
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-3">
+            <input type="text" id="newPlayerName" placeholder="Name" class="border p-1 text-sm rounded">
+            <input type="text" id="newPlayerPos" placeholder="Position" class="border p-1 text-sm rounded">
+            <input type="number" id="newPlayerGoals" placeholder="Goals" class="border p-1 text-sm rounded">
+            <input type="number" id="newPlayerAssists" placeholder="Assists" class="border p-1 text-sm rounded">
+            <button id="addPlayerBtn" class="col-span-2 bg-btl-primary text-white py-1 rounded">+ Add Player</button>
+          </div>
+        </div>
+        <!-- TRAINING SCHEDULES -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <h3 class="text-lg font-bold mb-2"><i class="fas fa-calendar-alt"></i> Training Schedules</h3>
+          <div id="trainingList" class="space-y-2 max-h-48 overflow-y-auto"></div>
+          <div class="flex gap-2 mt-3">
+            <input type="text" id="newTrainingDesc" placeholder="Session (e.g., Tactical drills)" class="border p-1 text-sm rounded flex-1">
+            <input type="date" id="newTrainingDate" class="border p-1 text-sm rounded">
+            <button id="addTrainingBtn" class="bg-gray-800 text-white px-3 rounded text-sm">+ Add</button>
+          </div>
+        </div>
+        <!-- PERFORMANCE ANALYTICS (Chart) -->
+        <div class="bg-white rounded-2xl shadow p-5 lg:col-span-2">
+          <h3 class="text-lg font-bold mb-2"><i class="fas fa-chart-simple"></i> Performance Analytics</h3>
+          <canvas id="goalsChart" height="180" class="w-full max-h-64"></canvas>
+          <p class="text-xs text-gray-500 mt-2">* Top performers based on goals (dynamic with player management)</p>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="text-center text-gray-400 text-sm py-6 border-t mt-8">© 2025 BTL FC • Tatu City, Nairobi • Full Digital Ecosystem — The future of Kenyan football.</footer>
+
+  <script>
+    // ---------- MOCK DATA & GLOBAL STATE ----------
+    let players = [
+      { id: 1, name: "Victor Ochieng", position: "FW", goals: 8, assists: 4, rating: 8.2 },
+      { id: 2, name: "John Mwangi", position: "MF", goals: 3, assists: 7, rating: 7.9 },
+      { id: 3, name: "Kelvin Otieno", position: "DF", goals: 1, assists: 2, rating: 7.4 },
+      { id: 4, name: "Dennis Omondi", position: "FW", goals: 5, assists: 3, rating: 7.8 },
+      { id: 5, name: "Brian Odhiambo", position: "GK", goals: 0, assists: 0, rating: 7.5 },
+      { id: 6, name: "Collins Anyango", position: "MF", goals: 2, assists: 5, rating: 7.6 }
+    ];
+
+    let trainingSessions = [
+      { id: "t1", desc: "High-intensity endurance", date: "2026-05-02" },
+      { id: "t2", desc: "Set pieces & tactics", date: "2026-05-05" },
+      { id: "t3", desc: "Recovery & positioning", date: "2026-05-07" }
+    ];
+
+    // Products store
+    const products = [
+      { id: "p1", name: "Home Jersey 2025", price: 3500, img: "👕" },
+      { id: "p2", name: "Training Scarf", price: 1200, img: "🧣" },
+      { id: "p3", name: "BTL Cap", price: 800, img: "🧢" },
+      { id: "p4", name: "Club Mug", price: 650, img: "☕" }
+    ];
+
+    let matchesForTickets = [
+      { id: "m1", fixture: "BTL FC vs KCB FC", date: "2026-06-10", price: 500, venue: "Tatu City Stadium" },
+      { id: "m2", fixture: "BTL FC vs Bandari FC", date: "2026-06-18", price: 700, venue: "Tatu City Stadium" }
+    ];
+
+    const membershipCatalog = [
+      { id: "basic", name: "🔰 Basic Fan", price: 500, benefits: "Match updates, Digital ID" },
+      { id: "premium", name: "⭐ Premium Legion", price: 1500, benefits: "Exclusive merch discount 10% + priority tickets" },
+      { id: "legend", name: "🏆 Legendary", price: 5000, benefits: "All benefits + Signed jersey raffle" }
+    ];
+
+    // Fan & session data
+    let currentUser = null;   // store { username, email, myTickets: [], myOrders: [], membership: null }
+    let usersDb = []; // mock storage
+    let cart = []; // { productId, name, price, qty }
+
+    // match simulation interval
+    let simInterval = null;
+    let simMinute = 0;
+    let scoreHome = 0, scoreAway = 0;
+    let opponentTeam = "Gor Mahia";
+    let commentaryQueue = [];
+
+    // chart instance
+    let goalsChart = null;
+
+    // ---------- HELPER RENDERS ----------
+    function renderPlayerStats() {
+      const tbody = document.getElementById("statsTableBody");
+      tbody.innerHTML = players.map(p => `<tr class="border-b"><td class="p-1 font-medium">${p.name}</td><td>${p.position}</td><td class="font-bold">${p.goals}</td><td>${p.assists}</td><td>${p.rating}</td></tr>`).join("");
+      const topScorer = [...players].sort((a,b)=>b.goals - a.goals)[0];
+      if(topScorer) { document.getElementById("topScorerName").innerText = topScorer.name; document.getElementById("topScorerGoals").innerText = topScorer.goals; }
+      else { document.getElementById("topScorerName").innerText = "-"; document.getElementById("topScorerGoals").innerText = "0"; }
+    }
+
+    function renderPlayerManagementTable() {
+      const tbody = document.getElementById("playerMgmtTbody");
+      tbody.innerHTML = players.map(p => `
+        <tr class="border-b">
+          <td class="p-1">${p.name}</td><td>${p.position}</td><td>${p.goals}</td><td>${p.assists}</td>
+          <td><button class="editPlayerBtn text-blue-600" data-id="${p.id}">✏️</button> <button class="deletePlayerBtn text-red-500" data-id="${p.id}">🗑️</button></td>
+        </tr>`).join("");
+      document.querySelectorAll(".editPlayerBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        let id = parseInt(btn.dataset.id);
+        let player = players.find(p=>p.id===id);
+        let newGoals = prompt("Edit Goals:", player.goals);
+        if(newGoals !== null) player.goals = parseInt(newGoals)||0;
+        let newAssists = prompt("Edit Assists:", player.assists);
+        if(newAssists !== null) player.assists = parseInt(newAssists)||0;
+        player.rating = (player.goals*0.5 + player.assists*0.3 + 6).toFixed(1);
+        if(player.rating>10) player.rating=10;
+        renderPlayerManagementTable(); renderPlayerStats(); updatePerformanceChart();
+      }));
+      document.querySelectorAll(".deletePlayerBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        let id = parseInt(btn.dataset.id);
+        players = players.filter(p=>p.id!==id);
+        renderPlayerManagementTable(); renderPlayerStats(); updatePerformanceChart();
+      }));
+    }
+
+    function renderTrainingSchedules() {
+      const container = document.getElementById("trainingList");
+      container.innerHTML = trainingSessions.map(s => `<div class="bg-gray-50 p-2 rounded flex justify-between"><span><i class="far fa-clock"></i> ${s.date}: ${s.desc}</span><button class="delTrainBtn text-red-400" data-id="${s.id}"><i class="fas fa-trash"></i></button></div>`).join("");
+      document.querySelectorAll(".delTrainBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        let id = btn.dataset.id;
+        trainingSessions = trainingSessions.filter(s=>s.id!==id);
+        renderTrainingSchedules();
+      }));
+    }
+
+    function renderMerchStore() {
+      const merchDiv = document.getElementById("merchList");
+      merchDiv.innerHTML = products.map(p => `<div class="flex justify-between items-center border-b pb-2"><div><span class="text-xl mr-2">${p.img}</span> ${p.name} - KSh ${p.price}</div><button class="addToCartBtn bg-btl-primary text-white text-xs px-2 py-1 rounded" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">Add to Cart</button></div>`).join("");
+      document.querySelectorAll(".addToCartBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        let pid = btn.dataset.id, name = btn.dataset.name, price = parseInt(btn.dataset.price);
+        let existing = cart.find(i=>i.productId===pid);
+        if(existing) existing.qty++;
+        else cart.push({ productId: pid, name, price, qty: 1 });
+        updateCartUI();
+      }));
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      let totalItems = cart.reduce((acc,i)=>acc+i.qty,0);
+      document.getElementById("cartCount").innerText = totalItems;
+      const summary = document.getElementById("cartSummary");
+      if(cart.length===0) summary.innerHTML = "Cart empty";
+      else summary.innerHTML = cart.map(i=>`${i.name} x${i.qty} = KSh ${i.price*i.qty}`).join("<br>") + `<br><strong>Total: KSh ${cart.reduce((s,i)=>s+i.price*i.qty,0)}</strong>`;
+    }
+
+    function renderTicketing() {
+      const container = document.getElementById("ticketEventsList");
+      if(!currentUser) document.getElementById("ticketMsg").innerHTML = "🔒 Login to buy tickets";
+      else document.getElementById("ticketMsg").innerHTML = "";
+      container.innerHTML = matchesForTickets.map(m => `<div class="border rounded-lg p-2 flex justify-between items-center"><div><span class="font-bold">${m.fixture}</span><br><span class="text-xs">${m.date} | ${m.venue} | KSh ${m.price}</span></div><button class="buyTicketBtn bg-green-600 text-white px-2 py-1 rounded text-xs" data-id="${m.id}" data-fixture="${m.fixture}" data-price="${m.price}">Buy Ticket</button></div>`).join("");
+      document.querySelectorAll(".buyTicketBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        if(!currentUser) return alert("Please login to buy tickets!");
+        let fixture = btn.dataset.fixture, price = parseInt(btn.dataset.price);
+        if(!currentUser.myTickets) currentUser.myTickets = [];
+        currentUser.myTickets.push({ fixture, price, date: new Date().toLocaleDateString(), id: Date.now() });
+        alert(`Ticket bought for ${fixture}! Check Fan Hub.`);
+        renderFanProfileDisplay();
+        saveUsersToLocal();
+      }));
+    }
+
+    function renderMembershipPlans() {
+      const planDiv = document.getElementById("membershipPlans");
+      planDiv.innerHTML = membershipCatalog.map(p => `<div class="flex justify-between items-center border p-2 rounded"><div><strong>${p.name}</strong><br><span class="text-xs">${p.benefits}</span><br>KSh ${p.price}/season</div><button class="subscribePlanBtn bg-amber-600 text-white px-3 py-1 rounded text-xs" data-id="${p.id}" data-name="${p.name}" data-price="${p.price}">Subscribe</button></div>`).join("");
+      document.querySelectorAll(".subscribePlanBtn").forEach(btn => btn.addEventListener("click", (e) => {
+        if(!currentUser) return alert("Login to subscribe!");
+        let planName = btn.dataset.name, price = btn.dataset.price;
+        currentUser.membership = { plan: planName, price, startDate: new Date().toISOString().slice(0,10) };
+        alert(`Subscribed to ${planName} ! Welcome to BTL FC family.`);
+        renderFanProfileDisplay(); renderMembershipStatus(); saveUsersToLocal();
+      }));
+      renderMembershipStatus();
+    }
+
+    function renderMembershipStatus() {
+      const statusDiv = document.getElementById("membershipStatus");
+      if(currentUser && currentUser.membership) statusDiv.innerHTML = `✅ Active: ${currentUser.membership.plan} since ${currentUser.membership.startDate}`;
+      else statusDiv.innerHTML = "⚡ No active membership. Subscribe to unlock perks!";
+    }
+
+    function renderFanProfileDisplay() {
+      const profileDiv = document.getElementById("fanProfileDisplay");
+      const extraDiv = document.getElementById("fanExtraInfo");
+      if(currentUser) {
+        profileDiv.innerHTML = `<div class="font-bold"><i class="fas fa-check-circle text-green-600"></i> Logged as ${currentUser.username}</div><div class="text-xs">📧 ${currentUser.email}</div>`;
+        let ticketsSection = currentUser.myTickets?.length ? `<div><strong>🎫 My Tickets:</strong> ${currentUser.myTickets.map(t=>t.fixture).join(", ")}</div>` : "<div>No tickets yet</div>";
+        let ordersSection = currentUser.myOrders?.length ? `<div><strong>🛍️ Orders:</strong> ${currentUser.myOrders.map(o=>o.items).join("; ")}</div>` : "<div>No past orders</div>";
+        let membershipShow = currentUser.membership ? `<div>🏅 Membership: ${currentUser.membership.plan}</div>` : "<div>No membership plan</div>";
+        extraDiv.innerHTML = `<div class="bg-white p-2 rounded shadow-sm">${ticketsSection}</div><div>${ordersSection}</div><div>${membershipShow}</div>`;
+      } else {
+        profileDiv.innerHTML = `<p class="text-gray-500"><i class="far fa-user-circle"></i> Not logged in. Register/Login to unlock tickets, membership & orders.</p>`;
+        extraDiv.innerHTML = "";
+      }
+      renderTicketing(); renderMembershipStatus();
+    }
+
+    function saveUsersToLocal() { localStorage.setItem("btlUsers", JSON.stringify(usersDb)); localStorage.setItem("btlCurrentUser", currentUser ? JSON.stringify(currentUser) : ""); }
+    function loadUsersAndSession() {
+      let storedUsers = localStorage.getItem("btlUsers");
+      if(storedUsers) usersDb = JSON.parse(storedUsers);
+      let storedCurrent = localStorage.getItem("btlCurrentUser");
+      if(storedCurrent && storedCurrent !== "") { currentUser = JSON.parse(storedCurrent); if(!currentUser.myTickets) currentUser.myTickets=[]; if(!currentUser.myOrders) currentUser.myOrders=[]; }
+      renderFanProfileDisplay();
+    }
+
+    // match simulation
+    function stopSimulation() { if(simInterval) { clearInterval(simInterval); simInterval=null; } }
+    function addCommentary(msg) { let commDiv = document.getElementById("liveCommentary"); commDiv.innerHTML += `<p class="simulation-text text-sm">⏱️ ${simMinute}' ${msg}</p>`; commDiv.scrollTop = commDiv.scrollHeight; if(commDiv.children.length>15) commDiv.removeChild(commDiv.children[0]); }
+    function startSimulation() {
+      stopSimulation(); simMinute=0; scoreHome=0; scoreAway=0; updateScoreUI(); commentaryQueue=[]; let opp = document.getElementById("opponentSelect").value; opponentTeam = opp; document.getElementById("simOpponent").innerHTML = opponentTeam;
+      addCommentary(`Match started! BTL FC vs ${opponentTeam}.`);
+      simInterval = setInterval(() => { if(simMinute>=90) { stopSimulation(); addCommentary("⏰ FULL TIME! Match ended."); return; } simMinute+=Math.floor(Math.random()*2)+1; if(simMinute>90) simMinute=90; updateScoreUI(); let rand = Math.random(); if(rand<0.18) { let scorer = players[Math.floor(Math.random()*players.length)].name; if(Math.random()>0.5) { scoreHome++; addCommentary(`⚽ GOAL! ${scorer} scores for BTL FC! (${scoreHome}-${scoreAway})`); } else { scoreAway++; addCommentary(`😤 Goal for ${opponentTeam}! (${scoreHome}-${scoreAway})`); } updateScoreUI(); } else if(rand<0.25) addCommentary(`🔁 Substitution made by BTL FC.`); else if(rand<0.32) addCommentary(`🟨 Yellow card for tactical foul.`); }, 2000);
+    }
+    function updateScoreUI() { document.getElementById("simScore").innerHTML = `${scoreHome} - ${scoreAway}`; document.getElementById("simMinute").innerHTML = simMinute; }
+    function resetMatchSim() { stopSimulation(); simMinute=0; scoreHome=0; scoreAway=0; opponentTeam = document.getElementById("opponentSelect").value; document.getElementById("simOpponent").innerHTML = opponentTeam; updateScoreUI(); document.getElementById("liveCommentary").innerHTML = "<p class='text-gray-500'>⚽ Match reset. Press Kick-off.</p>"; }
+    
+    // Performance Chart update (goals per player)
+    function updatePerformanceChart() {
+      let labels = players.slice(0,5).map(p=>p.name);
+      let goalData = players.slice(0,5).map(p=>p.goals);
+      if(goalsChart) goalsChart.destroy();
+      let ctx = document.getElementById('goalsChart').getContext('2d');
+      goalsChart = new Chart(ctx, { type: 'bar', data: { labels: labels, datasets: [{ label: 'Goals Scored', data: goalData, backgroundColor: '#E05A2A', borderRadius: 8 }] }, options: { responsive: true, maintainAspectRatio: true } });
+    }
+
+    // Checkout merch
+    function checkoutMerch() {
+      if(!currentUser) { alert("Please login to complete purchase."); return; }
+      if(cart.length===0) { alert("Cart is empty."); return; }
+      let orderSummary = cart.map(i=>`${i.name} x${i.qty}`).join(",");
+      if(!currentUser.myOrders) currentUser.myOrders=[];
+      currentUser.myOrders.push({ date: new Date().toLocaleString(), items: orderSummary, total: cart.reduce((s,i)=>s+i.price*i.qty,0) });
+      cart = [];
+      updateCartUI();
+      renderFanProfileDisplay();
+      alert("Order placed successfully! Check your Fan Hub.");
+      saveUsersToLocal();
+    }
+
+    // Authentication & data sync
+    function registerUser() { let uname=document.getElementById("fanName").value.trim(), email=document.getElementById("fanEmail").value.trim(); if(!uname||!email) return alert("Enter username & email"); if(usersDb.find(u=>u.username===uname)) return alert("User exists!"); let newUser = { username: uname, email, myTickets: [], myOrders: [], membership: null }; usersDb.push(newUser); currentUser = newUser; saveUsersToLocal(); renderFanProfileDisplay(); alert("Registered & logged in!"); }
+    function loginUser() { let uname=document.getElementById("loginName").value.trim(); let user=usersDb.find(u=>u.username===uname); if(user) { currentUser=user; saveUsersToLocal(); renderFanProfileDisplay(); alert(`Welcome ${uname}`); } else alert("User not found. Register first."); }
+    function logoutUser() { currentUser=null; localStorage.removeItem("btlCurrentUser"); renderFanProfileDisplay(); cart=[]; updateCartUI(); alert("Logged out."); }
+
+    // Initialize all
+    document.addEventListener("DOMContentLoaded", () => {
+      renderPlayerStats(); renderPlayerManagementTable(); renderTrainingSchedules(); renderMerchStore(); renderTicketing(); renderMembershipPlans(); updatePerformanceChart();
+      loadUsersAndSession();
+      document.getElementById("startMatchBtn").addEventListener("click", startSimulation);
+      document.getElementById("resetMatchBtn").addEventListener("click", resetMatchSim);
+      document.getElementById("registerBtn").addEventListener("click", registerUser);
+      document.getElementById("loginBtn").addEventListener("click", loginUser);
+      document.getElementById("logoutBtn").addEventListener("click", logoutUser);
+      document.getElementById("addPlayerBtn").addEventListener("click", () => {
+        let name=document.getElementById("newPlayerName").value, pos=document.getElementById("newPlayerPos").value, goals=parseInt(document.getElementById("newPlayerGoals").value)||0, assists=parseInt(document.getElementById("newPlayerAssists").value)||0;
+        if(!name||!pos) return alert("Name & Position required");
+        let newId = Date.now(); let rating = (goals*0.5+assists*0.3+6).toFixed(1); if(rating>10)rating=10;
+        players.push({ id: newId, name, position: pos, goals, assists, rating: parseFloat(rating) });
+        renderPlayerManagementTable(); renderPlayerStats(); updatePerformanceChart();
+        document.getElementById("newPlayerName").value="";document.getElementById("newPlayerPos").value="";document.getElementById("newPlayerGoals").value="";document.getElementById("newPlayerAssists").value="";
+      });
+      document.getElementById("addTrainingBtn").addEventListener("click", () => {
+        let desc = document.getElementById("newTrainingDesc").value.trim(); let date = document.getElementById("newTrainingDate").value;
+        if(!desc||!date) return alert("Session description & date");
+        trainingSessions.push({ id: Date.now().toString(), desc, date });
+        renderTrainingSchedules();
+        document.getElementById("newTrainingDesc").value=""; document.getElementById("newTrainingDate").value="";
+      });
+      document.getElementById("checkoutBtn").addEventListener("click", checkoutMerch);
+    });
+  </script>
+</body>
+</html>
